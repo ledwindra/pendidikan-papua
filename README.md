@@ -1,5 +1,5 @@
 # Pembukaan
-Assalamualaikum warahmatullahi wabarakatuh. Mohon ijin pimpinan. Dengan ini saya sampaikan data mengenai persekolahan di Indonesia, wabil khusus perbandingan antara kondisi nasional dan Papua (Provinsi Papua dan Provinsi Papua Barat). Data diperoleh dari situs Data Pokok Pendidikan Dasar dan Menengah (https://dapo.dikdasmen.kemdikbud.go.id/). Maksud dan tujuan dari ini adalah belajar apa yang sekiranya terjadi di Papua, setidaknya dari segi pendidikan.
+Assalamualaikum warahmatullahi wabarakatuh. Mohon ijin pimpinan. Dengan ini saya sampaikan data mengenai persekolahan di Indonesia, wabil khusus perbandingan antara kondisi nasional dan Papua (Provinsi Papua dan Provinsi Papua Barat). Data diperoleh dari situs Data Pokok Pendidikan Dasar dan Menengah (https://dapo.dikdasmen.kemdikbud.go.id/). Maksud dan tujuan dari ini adalah untuk belajar apa yang sekiranya terjadi di Papua, setidaknya dari segi pendidikan 🙏🏽.
 
 Lihat slide presentasi di [sini](https://ledwindra.github.io/pendidikan-papua/#/).
 
@@ -30,7 +30,7 @@ cd pendidikan-papua
 
 
 # Virtual environment
-Aktifkan virtual environment jika ada tidak ingin ada bentrok modul yang digunakan untuk projek ini dengan modul lainnya yang sudah terpasang di komputer Anda. Lakukan hal di bawah ini di terminal:
+Aktifkan virtual environment jika ada tidak ingin modul yang bentrok saat menjalankan projek ini dengan modul lainnya yang sudah terpasang di komputer Anda. Lakukan hal di bawah ini di terminal:
 
 ```
 python3 -m venv .venv
