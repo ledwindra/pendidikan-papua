@@ -1,6 +1,8 @@
 # Pembukaan
 Assalamualaikum warahmatullahi wabarakatuh. Mohon ijin pimpinan. Dengan ini saya sampaikan data mengenai persekolahan di Indonesia, wabil khusus perbandingan antara kondisi nasional dan Papua (Provinsi Papua dan Provinsi Papua Barat). Data diperoleh dari situs Data Pokok Pendidikan Dasar dan Menengah (https://dapo.dikdasmen.kemdikbud.go.id/). Maksud dan tujuan dari ini adalah untuk mengakui adanya privilese saya sebagai kelas menengah ngehe dan belajar apa yang sekiranya terjadi di Papua, setidaknya dari segi pendidikan.
 
+Lihat slide presentasi di [sini](https://ledwindra.github.io/pendidikan-papua/#/).
+
 # Lakukan di komputer Anda
 Pastikan Anda sudah menginstall Python 3.x. Dalam kasus ini, saya menggunakan versi 3.8.1. Lakukan hal di bawah ini di terminal:
 
