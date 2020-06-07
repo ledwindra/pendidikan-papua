@@ -3,9 +3,7 @@ import os
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
-from datetime import datetime
 from random import randint
-from time import sleep
 
 class Dapodik:
 
@@ -24,17 +22,13 @@ class Dapodik:
                     df = df[['nama', 'kode_wilayah']]
                     df.to_csv('./data/all.csv', index=False)
                 except requests.exceptions.SSLError:
-                    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | requests.exceptions.SSLError")
-                    sleep(1)
+                    continue
                 except requests.exceptions.ConnectTimeout:
-                    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | requests.exceptions.ConnectTimeout")
-                    sleep(1)
+                    continue
                 except requests.exceptions.ReadTimeout:
-                    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | requests.exceptions.ReadTimeout")
-                    sleep(1)
+                    continue
                 except requests.exceptions.ConnectionError:
-                    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | requests.exceptions.ConnectionError")
-                    sleep(1)
+                    continue
         else:
             print('Province file exists')
     
@@ -47,7 +41,7 @@ class Dapodik:
         all_df = pd.read_csv('./data/all.csv', dtype={'kode_wilayah': object})
         region_id = [x.replace(' ', '') for x in all_df['kode_wilayah']]
         region_name = [x for x in all_df['nama']]
-        if os.path.exists(f'./data/province.csv'):
+        if os.path.exists('./data/province.csv'):
             df = pd.read_csv('./data/province.csv', dtype=object, header=None)
             df.columns = columns
             mst_region_id = set([x.replace(' ', '') for x in df['mst_kode_wilayah']])
@@ -64,19 +58,15 @@ class Dapodik:
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[columns]
-                        df.to_csv(f'./data/province.csv', index=False, mode='a', header=False)
+                        df.to_csv('./data/province.csv', index=False, mode='a', header=False)
                     except requests.exceptions.SSLError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.SSLError")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ReadTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ReadTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectionError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectionError")
-                        sleep(1)
+                        continue
             else:
                 print(f'Province ID {i} already exists')
 
@@ -90,7 +80,7 @@ class Dapodik:
         province.columns = columns
         region_id = set([x.replace(' ', '') for x in province['kode_wilayah']])
         region_name = set([x for x in province['nama']])
-        if os.path.exists(f'./data/district.csv'):
+        if os.path.exists('./data/district.csv'):
             df = pd.read_csv('./data/district.csv', dtype=object, header=None)
             df.columns = columns
             mst_region_id = set([x.replace(' ', '') for x in df['mst_kode_wilayah']])
@@ -107,19 +97,15 @@ class Dapodik:
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[columns]
-                        df.to_csv(f'./data/district.csv', index=False, mode='a', header=False)
+                        df.to_csv('./data/district.csv', index=False, mode='a', header=False)
                     except requests.exceptions.SSLError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.SSLError")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ReadTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ReadTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectionError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectionError")
-                        sleep(1)
+                        continue
             else:
                 print(f'District ID {i} already exists')
 
@@ -143,7 +129,7 @@ class Dapodik:
         district.columns = source_columns
         region_id = set([x.replace(' ', '') for x in district['kode_wilayah']])
         region_name = set([x for x in district['nama']])
-        if os.path.exists(f'./data/subdistrict.csv'):
+        if os.path.exists('./data/subdistrict.csv'):
             df = pd.read_csv('./data/subdistrict.csv', dtype=object, header=None)
             df.columns = target_columns
             mst_region_id = set([x.replace(' ', '') for x in df['kode_wilayah_induk_kecamatan']])
@@ -160,19 +146,15 @@ class Dapodik:
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[target_columns]
-                        df.to_csv(f'./data/subdistrict.csv', index=False, mode='a', header=False)
+                        df.to_csv('./data/subdistrict.csv', index=False, mode='a', header=False)
                     except requests.exceptions.SSLError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.SSLError")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ReadTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ReadTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectionError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | District ID {i}: requests.exceptions.ConnectionError")
-                        sleep(1)
+                        continue
             else:
                 print(f'Subdistrict ID {i}: file exists')
 
@@ -263,7 +245,7 @@ class Dapodik:
         subdistrict = pd.read_csv('./data/subdistrict.csv', dtype=object, header=None)
         subdistrict.columns = source_columns
         source_school_id = set([x.replace(' ', '') for x in subdistrict['sekolah_id_enkrip']])
-        if os.path.exists(f'./data/school.csv'):
+        if os.path.exists('./data/school.csv'):
             df = pd.read_csv('./data/school.csv', dtype=object, header=None)
             df.columns = target_columns
             target_school_id = set([x.replace(' ', '') for x in df['sekolah_id_enkrip']])
@@ -281,19 +263,15 @@ class Dapodik:
                         df = pd.DataFrame(response.json())
                         df['sekolah_id_enkrip'] = i
                         df = df[target_columns]
-                        df.to_csv(f'./data/school.csv', index=False, mode='a', header=False)
+                        df.to_csv('./data/school.csv', index=False, mode='a', header=False)
                     except requests.exceptions.SSLError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.SSLError")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ConnectTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ReadTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ReadTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectionError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ConnectionError")
-                        sleep(1)
+                        continue
             else:
                 print(f'School ID {i}: file exists')
 
@@ -316,7 +294,7 @@ class Dapodik:
     ):
         subdistrict = pd.read_csv('./data/subdistrict.csv', dtype=object, header=None)
         source_school_id = [x.replace(' ', '') for x in subdistrict.iloc[:,-1]]
-        if os.path.exists(f'./data/school-profile.csv'):
+        if os.path.exists('./data/school-profile.csv'):
             df = pd.read_csv('./data/school-profile.csv', dtype=object, header=None)
             df.columns = target_columns
             target_school_id = set([x.replace(' ', '') for x in df['sekolah_id_enkrip']])
@@ -347,19 +325,15 @@ class Dapodik:
                             'school_level': identitas_sekolah.find_all('p')[2].text.split(':')[1],
                             'status_ownership': identitas_sekolah.find_all('p')[3].text.split(':')[1]
                         }])
-                        df.to_csv(f'./data/school-profile.csv', index=False, mode='a', header=False)
+                        df.to_csv('./data/school-profile.csv', index=False, mode='a', header=False)
                     except requests.exceptions.SSLError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.SSLError")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ConnectTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ReadTimeout:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ReadTimeout")
-                        sleep(1)
+                        continue
                     except requests.exceptions.ConnectionError:
-                        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} | School ID {i}: requests.exceptions.ConnectionError")
-                        sleep(1)
+                        continue
             else:
                 print(f'School ID {i}: file exists')
 
