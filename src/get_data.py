@@ -16,7 +16,7 @@ class Dapodik:
         if not os.path.exists('./data/all.csv'):
             while status_code != 200:
                 try:
-                    response = requests.get(all_url, headers=headers, timeout=10)
+                    response = requests.get(all_url, headers=headers, timeout=3)
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
                     df = df[['nama', 'kode_wilayah']]
@@ -54,7 +54,7 @@ class Dapodik:
                 status_code = None
                 while status_code != 200:
                     try:
-                        response = requests.get(province_url, headers=headers, timeout=10)
+                        response = requests.get(province_url, headers=headers, timeout=3)
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[columns]
@@ -93,7 +93,7 @@ class Dapodik:
                 status_code = None
                 while status_code != 200:
                     try:
-                        response = requests.get(district_url, headers=headers, timeout=10)
+                        response = requests.get(district_url, headers=headers, timeout=3)
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[columns]
@@ -142,7 +142,7 @@ class Dapodik:
                 status_code = None
                 while status_code != 200:
                     try:
-                        response = requests.get(subdistrict_url, headers=headers, timeout=10, verify=True)
+                        response = requests.get(subdistrict_url, headers=headers, timeout=3, verify=True)
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[target_columns]
@@ -258,7 +258,7 @@ class Dapodik:
                 status_code = None
                 while status_code != 200:
                     try:
-                        response = requests.get(school_url, headers=headers, timeout=10, verify=True)
+                        response = requests.get(school_url, headers=headers, timeout=3, verify=True)
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df['sekolah_id_enkrip'] = i
@@ -303,11 +303,11 @@ class Dapodik:
         for i in source_school_id:
             print(f'Upcoming school ID: {i}')
             if i not in set(target_school_id):
-                school_url = url + f'https://dapo.dikdasmen.kemdikbud.go.id/sekolah/{i}'
+                school_url = f'https://dapo.dikdasmen.kemdikbud.go.id/sekolah/{i}'
                 status_code = None
                 while status_code != 200:
                     try:
-                        response = requests.get(school_url, headers=headers, timeout=10, verify=True)
+                        response = requests.get(school_url, headers=headers, timeout=3, verify=True)
                         status_code = response.status_code
                         content = BeautifulSoup(response.content, features='html.parser')
                         profile_usermenu = content.find('div', {'class': 'profile-usermenu'})
@@ -334,6 +334,8 @@ class Dapodik:
                         continue
                     except requests.exceptions.ConnectionError:
                         continue
+                    except AttributeError:
+                        pass
             else:
                 print(f'School ID {i}: file exists')
 
@@ -341,11 +343,11 @@ def main():
     headers = {'user-agent': str(id(randint(0, 1000000)))}
     url = 'https://dapo.dikdasmen.kemdikbud.go.id/rekap/'
     dapodik = Dapodik('20192')
-    dapodik.get_all(url, headers)
-    dapodik.get_province(url, headers)
-    dapodik.get_district(url, headers)
-    dapodik.get_subdistrict(url, headers)
-    dapodik.get_school(url, headers)
+    # dapodik.get_all(url, headers)
+    # dapodik.get_province(url, headers)
+    # dapodik.get_district(url, headers)
+    # dapodik.get_subdistrict(url, headers)
+    # dapodik.get_school(url, headers)
     dapodik.get_school_profile(url, headers)
 
 if __name__ == "__main__":
