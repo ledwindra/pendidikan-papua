@@ -334,6 +334,8 @@ class Dapodik:
                         continue
                     except requests.exceptions.ConnectionError:
                         continue
+                    except AttributeError:
+                        pass
             else:
                 print(f'School ID {i}: file exists')
 
