@@ -8,7 +8,11 @@ from random import randint
 
 class Dapodik:
 
-    def __init__(self,semester_id, url, headers):
+    def __init__(
+        self,semester_id,
+        url, 
+        headers
+    ):
         self.semester_id = semester_id
         self.url = url
         self.headers = headers
@@ -50,7 +54,8 @@ class Dapodik:
         return target_id
 
     def get_all(self):
-        all_url = self.url + f'progres?id_level_wilayah=0&semester_id={self.semester_id}'
+        all_url = self.url \
+            + f'progres?id_level_wilayah=0&semester_id={self.semester_id}'
         status_code = None
         if not os.path.exists('./data/all.csv'):
             while status_code != 200:
@@ -95,7 +100,9 @@ class Dapodik:
         for i in region_id:
             print(f'Upcoming province ID: {i}')
             if i not in set(mst_region_id):
-                province_url = self.url + f'progres?&id_level_wilayah=1&kode_wilayah={i}&semester_id={self.semester_id}'
+                province_url = self.url \
+                    + f'progres?&id_level_wilayah=1&kode_wilayah={i}' \
+                    + f'&semester_id={self.semester_id}'
                 status_code = None
                 while status_code != 200:
                     try:
@@ -107,7 +114,12 @@ class Dapodik:
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
                         df = df[columns]
-                        df.to_csv('./data/province.csv', index=False, mode='a', header=False)
+                        df.to_csv(
+                            './data/province.csv',
+                            index=False,
+                            mode='a',
+                            header=False
+                        )
                     except requests.exceptions.SSLError:
                         continue
                     except requests.exceptions.ConnectTimeout:
@@ -131,7 +143,9 @@ class Dapodik:
         )
         print(f'Upcoming district ID: {i}')
         if i not in set(mst_region_id):
-            district_url = self.url + f'progres?&id_level_wilayah=2&kode_wilayah={i}&semester_id={self.semester_id}'
+            district_url = self.url \
+                + f'progres?&id_level_wilayah=2&kode_wilayah={i}' \
+                + f'&semester_id={self.semester_id}'
             status_code = None
             while status_code != 200:
                 try:
@@ -143,7 +157,12 @@ class Dapodik:
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
                     df = df[columns]
-                    df.to_csv('./data/district.csv', index=False, mode='a', header=False)
+                    df.to_csv(
+                        './data/district.csv',
+                        index=False,
+                        mode='a',
+                        header=False
+                    )
                 except requests.exceptions.SSLError:
                     continue
                 except requests.exceptions.ConnectTimeout:
@@ -176,7 +195,9 @@ class Dapodik:
         )
         print(f'Upcoming subdistrict ID: {i}')
         if i not in set(mst_region_id):
-            subdistrict_url = self.url + f'progresSP?id_level_wilayah=3&semester_id={self.semester_id}&kode_wilayah={i}'
+            subdistrict_url = self.url \
+                + f'progresSP?id_level_wilayah=3&semester_id={self.semester_id}' \
+                + f'&kode_wilayah={i}'
             status_code = None
             while status_code != 200:
                 try:
@@ -188,7 +209,12 @@ class Dapodik:
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
                     df = df[target_columns]
-                    df.to_csv('./data/subdistrict.csv', index=False, mode='a', header=False)
+                    df.to_csv(
+                        './data/subdistrict.csv',
+                        index=False,
+                        mode='a',
+                        header=False
+                    )
                 except requests.exceptions.SSLError:
                     continue
                 except requests.exceptions.ConnectTimeout:
@@ -293,7 +319,12 @@ class Dapodik:
                     df = pd.DataFrame(response.json())
                     df['sekolah_id_enkrip'] = i
                     df = df[target_columns]
-                    df.to_csv('./data/school.csv', index=False, mode='a', header=False)
+                    df.to_csv(
+                        './data/school.csv',
+                        index=False,
+                        mode='a',
+                        header=False
+                    )
                 except requests.exceptions.SSLError:
                     continue
                 except requests.exceptions.ConnectTimeout:
@@ -338,23 +369,70 @@ class Dapodik:
                         timeout=3
                     )
                     status_code = response.status_code
-                    content = BeautifulSoup(response.content, features='html.parser')
-                    profile_usermenu = content.find('div', {'class': 'profile-usermenu'})
-                    identitas_sekolah = content.find('div', id='myTabContent').find_all('div', {'class': 'panel-body'})[0]
-                    data_rinci = content.find('div', id='myTabContent').find_all('div', {'class': 'panel-body'})[2]
+                    content = BeautifulSoup(
+                        response.content,
+                        features='html.parser'
+                    )
+                    profile_usermenu = content.find(
+                        'div',
+                        {'class': 'profile-usermenu'}
+                    )
+                    identitas_sekolah = content.find(
+                        'div',
+                        id='myTabContent').find_all(
+                            'div',
+                            {'class': 'panel-body'}
+                        )[0]
+                    data_rinci = content.find(
+                        'div',
+                        id='myTabContent').find_all(
+                            'div',
+                            {'class': 'panel-body'}
+                        )[2]
                     df = pd.DataFrame([{
                         'sekolah_id_enkrip': i,
-                        'accreditation': profile_usermenu.find_all('a')[2].text.replace(' ', '').replace('\n', '')[-1],
-                        'status_bos': data_rinci.find_all('p')[0].text.split(':')[1],
-                        'iso_certification': data_rinci.find_all('p')[2].text.split(':')[1],
-                        'source_electricity': data_rinci.find_all('p')[3].text.split(':')[1],
-                        'power_electricity': data_rinci.find_all('p')[4].text.split(':')[1],
-                        'internet_access': data_rinci.find_all('p')[5].text.split(':')[1],
-                        'school_status': identitas_sekolah.find_all('p')[1].text.split(':')[1],
-                        'school_level': identitas_sekolah.find_all('p')[2].text.split(':')[1],
-                        'status_ownership': identitas_sekolah.find_all('p')[3].text.split(':')[1]
+                        'accreditation': profile_usermenu\
+                            .find_all('a')[2]\
+                            .text\
+                            .replace(' ', '')\
+                            .replace('\n', '')[-1],
+                        'status_bos': data_rinci\
+                            .find_all('p')[0]\
+                            .text.split(':')[1],
+                        'iso_certification': data_rinci\
+                            .find_all('p')[2]\
+                            .text.split(':')[1],
+                        'source_electricity': data_rinci\
+                            .find_all('p')[3]\
+                            .text\
+                            .split(':')[1],
+                        'power_electricity': data_rinci\
+                            .find_all('p')[4]\
+                            .text\
+                            .split(':')[1],
+                        'internet_access': data_rinci\
+                            .find_all('p')[5]\
+                            .text\
+                            .split(':')[1],
+                        'school_status': identitas_sekolah\
+                            .find_all('p')[1]\
+                            .text\
+                            .split(':')[1],
+                        'school_level': identitas_sekolah\
+                            .find_all('p')[2]\
+                            .text\
+                            .split(':')[1],
+                        'status_ownership': identitas_sekolah\
+                            .find_all('p')[3]\
+                            .text\
+                            .split(':')[1]
                     }])
-                    df.to_csv('./data/school-profile.csv', index=False, mode='a', header=False)
+                    df.to_csv(
+                        './data/school-profile.csv',
+                        index=False,
+                        mode='a',
+                        header=False
+                    )
                 except requests.exceptions.SSLError:
                     continue
                 except requests.exceptions.ConnectTimeout:
@@ -374,41 +452,41 @@ def main():
         'https://dapo.dikdasmen.kemdikbud.go.id/rekap/',
         {'user-agent': str(id(randint(0, 1000000)))}
     )
-    dapodik.get_all()
-    dapodik.get_province()
-    Pool(4).map(
-        dapodik.get_district,
-        dapodik.get_source_list(
-            'province',
-            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-            'kode_wilayah'
-        )
-    )
-    Pool(4).map(
-        dapodik.get_subdistrict,
-        dapodik.get_source_list(
-            'district',
-            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-            'kode_wilayah'
-        )
-    )
-    Pool(4).map(
-        dapodik.get_school,
-        dapodik.get_source_list(
-            'subdistrict',
-            [
-                'nama',
-                'sekolah_id',
-                'kode_wilayah_induk_kecamatan',
-                'induk_provinsi',
-                'kode_wilayah_induk_provinsi',
-                'bentuk_pendidikan',
-                'status_sekolah',
-                'sekolah_id_enkrip'
-            ],
-            'sekolah_id_enkrip'
-        )
-    )
+    # dapodik.get_all()
+    # dapodik.get_province()
+    # Pool(4).map(
+    #     dapodik.get_district,
+    #     dapodik.get_source_list(
+    #         'province',
+    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+    #         'kode_wilayah'
+    #     )
+    # )
+    # Pool(4).map(
+    #     dapodik.get_subdistrict,
+    #     dapodik.get_source_list(
+    #         'district',
+    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+    #         'kode_wilayah'
+    #     )
+    # )
+    # Pool(4).map(
+    #     dapodik.get_school,
+    #     dapodik.get_source_list(
+    #         'subdistrict',
+    #         [
+    #             'nama',
+    #             'sekolah_id',
+    #             'kode_wilayah_induk_kecamatan',
+    #             'induk_provinsi',
+    #             'kode_wilayah_induk_provinsi',
+    #             'bentuk_pendidikan',
+    #             'status_sekolah',
+    #             'sekolah_id_enkrip'
+    #         ],
+    #         'sekolah_id_enkrip'
+    #     )
+    # )
     Pool(4).map(
         dapodik.get_school_profile,
         dapodik.get_source_list(
