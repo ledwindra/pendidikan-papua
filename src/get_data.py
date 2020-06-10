@@ -452,41 +452,41 @@ def main():
         'https://dapo.dikdasmen.kemdikbud.go.id/rekap/',
         {'user-agent': str(id(randint(0, 1000000)))}
     )
-    # dapodik.get_all()
-    # dapodik.get_province()
-    # Pool(4).map(
-    #     dapodik.get_district,
-    #     dapodik.get_source_list(
-    #         'province',
-    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-    #         'kode_wilayah'
-    #     )
-    # )
-    # Pool(4).map(
-    #     dapodik.get_subdistrict,
-    #     dapodik.get_source_list(
-    #         'district',
-    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-    #         'kode_wilayah'
-    #     )
-    # )
-    # Pool(4).map(
-    #     dapodik.get_school,
-    #     dapodik.get_source_list(
-    #         'subdistrict',
-    #         [
-    #             'nama',
-    #             'sekolah_id',
-    #             'kode_wilayah_induk_kecamatan',
-    #             'induk_provinsi',
-    #             'kode_wilayah_induk_provinsi',
-    #             'bentuk_pendidikan',
-    #             'status_sekolah',
-    #             'sekolah_id_enkrip'
-    #         ],
-    #         'sekolah_id_enkrip'
-    #     )
-    # )
+    dapodik.get_all()
+    dapodik.get_province()
+    Pool(4).map(
+        dapodik.get_district,
+        dapodik.get_source_list(
+            'province',
+            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+            'kode_wilayah'
+        )
+    )
+    Pool(4).map(
+        dapodik.get_subdistrict,
+        dapodik.get_source_list(
+            'district',
+            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+            'kode_wilayah'
+        )
+    )
+    Pool(4).map(
+        dapodik.get_school,
+        dapodik.get_source_list(
+            'subdistrict',
+            [
+                'nama',
+                'sekolah_id',
+                'kode_wilayah_induk_kecamatan',
+                'induk_provinsi',
+                'kode_wilayah_induk_provinsi',
+                'bentuk_pendidikan',
+                'status_sekolah',
+                'sekolah_id_enkrip'
+            ],
+            'sekolah_id_enkrip'
+        )
+    )
     Pool(4).map(
         dapodik.get_school_profile,
         dapodik.get_source_list(
