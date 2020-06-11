@@ -1,7 +1,9 @@
+import argparse
 import glob
 import os
 import requests
 import pandas as pd
+import sys
 from bs4 import BeautifulSoup
 from multiprocessing import Pool
 from random import randint
@@ -447,6 +449,16 @@ class Dapodik:
             print(f'School ID {i}: file exists')
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-p',
+        '--pool',
+        type=int,
+        default=2,
+        help='numbers of pool used for multiprocessing'
+    )
+    args = parser.parse_args()
+    pool = args.pool
     dapodik = Dapodik(
         '20192',
         'https://dapo.dikdasmen.kemdikbud.go.id/rekap/',
@@ -454,7 +466,7 @@ def main():
     )
     dapodik.get_all()
     dapodik.get_province()
-    Pool(4).map(
+    Pool(pool).map(
         dapodik.get_district,
         dapodik.get_source_list(
             'province',
@@ -462,7 +474,7 @@ def main():
             'kode_wilayah'
         )
     )
-    Pool(4).map(
+    Pool(pool).map(
         dapodik.get_subdistrict,
         dapodik.get_source_list(
             'district',
@@ -470,7 +482,7 @@ def main():
             'kode_wilayah'
         )
     )
-    Pool(4).map(
+    Pool(pool).map(
         dapodik.get_school,
         dapodik.get_source_list(
             'subdistrict',
@@ -487,7 +499,7 @@ def main():
             'sekolah_id_enkrip'
         )
     )
-    Pool(4).map(
+    Pool(pool).map(
         dapodik.get_school_profile,
         dapodik.get_source_list(
             'subdistrict',
