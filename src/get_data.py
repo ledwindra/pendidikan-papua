@@ -12,11 +12,13 @@ class Dapodik:
     def __init__(
         self,semester_id,
         url, 
-        headers
+        headers,
+        timeout
     ):
         self.semester_id = semester_id
         self.url = url
         self.headers = headers
+        self.timeout = timeout
 
     def get_source_list(
         self,
@@ -64,7 +66,7 @@ class Dapodik:
                     response = requests.get(
                         all_url,
                         headers=self.headers,
-                        timeout=3
+                        timeout=self.timeout
                     )
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
@@ -110,7 +112,7 @@ class Dapodik:
                         response = requests.get(
                             province_url,
                             headers=self.headers,
-                            timeout=3
+                            timeout=self.timeout
                         )
                         status_code = response.status_code
                         df = pd.DataFrame(response.json())
@@ -153,7 +155,7 @@ class Dapodik:
                     response = requests.get(
                         district_url,
                         headers=self.headers,
-                        timeout=3
+                        timeout=self.timeout
                     )
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
@@ -205,7 +207,7 @@ class Dapodik:
                     response = requests.get(
                         subdistrict_url,
                         headers=self.headers,
-                        timeout=3
+                        timeout=self.timeout
                     )
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
@@ -314,7 +316,7 @@ class Dapodik:
                     response = requests.get(
                         school_url,
                         headers=self.headers,
-                        timeout=3
+                        timeout=self.timeout
                     )
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
@@ -367,7 +369,7 @@ class Dapodik:
                     response = requests.get(
                         school_url,
                         headers=self.headers,
-                        timeout=3
+                        timeout=self.timeout
                     )
                     status_code = response.status_code
                     content = BeautifulSoup(
@@ -454,14 +456,25 @@ def main():
         '--pool',
         type=int,
         default=2,
-        help='numbers of pool used for multiprocessing'
+        help='numbers of pool used for multiprocessing',
+        metavar=''
+    )
+    parser.add_argument(
+        '-t',
+        '--timeout',
+        type=int,
+        default=5,
+        help='number of seconds Requests will wait for your client to establish a connection to a remote machine (corresponding to the connect()) call on the socket',
+        metavar=''
     )
     args = parser.parse_args()
     pool = args.pool
+    timeout = args.timeout
     dapodik = Dapodik(
         '20192',
         'https://dapo.dikdasmen.kemdikbud.go.id/rekap/',
-        {'user-agent': str(id(randint(0, 1000000)))}
+        {'user-agent': str(id(randint(0, 1000000)))},
+        timeout
     )
     dapodik.get_all()
     dapodik.get_province()

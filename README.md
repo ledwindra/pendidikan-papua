@@ -3,6 +3,17 @@ Assalamualaikum warahmatullahi wabarakatuh. Mohon ijin pimpinan. Dengan ini saya
 
 Lihat slide presentasi di [sini](https://ledwindra.github.io/pendidikan-papua/#/).
 
+# Permisi
+Tok-tok-tok, bolehkah saya melakukan *web scraping* di situs Dapodik? Menurut [laman](https://dapo.dikdasmen.kemdikbud.go.id/robots.txt) ini, boleh! Berikut pernyataannya:
+
+```
+User-agent: *
+Disallow:
+Sitemap: http://dapo.dikdasmen.kemdikbud.go.id/sitemap.xml
+```
+
+Artinya, setiap pengguna (*), tidak dilarang untuk melakukan apa pun di situ ini (Disallsow:). Trims ya! 🙏🏽
+
 # Lakukan di komputer Anda
 Pastikan Anda sudah menginstall Python 3.x. Dalam kasus ini, saya menggunakan versi 3.8.1. Lakukan hal di bawah ini di terminal:
 
@@ -37,32 +48,42 @@ python3 src/get_data.py --help
 Kemudian akan muncul pesan sebagai berikut:
 
 ```
-usage: get_data.py [-h] [-p POOL]
+usage: get_data.py [-h] [-p] [-t]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -p POOL, --pool POOL  numbers of pool used for multiprocessing
+  -h, --help       show this help message and exit
+  -p , --pool      numbers of pool used for multiprocessing
+  -t , --timeout   number of seconds Requests will wait for your client to establish a connection to a remote machine
+                   (corresponding to the connect()) call on the socket
 ```
 
-Di sini saya menggunakan *multiprocessing* untuk mempercepat proses dalam memperoleh data. Pada dasarnya, jumlah *pool* yang digunakan adalah 2. Namun jumlah ini bisa digunakan sesuai dengan kebutuhan, namun bergantung kepada jumlah CPU di komputer Anda. Bagaimana mengetahuinya? Secara sederhana bisa jalankan perintah berikut di terminal:
+Terdapat dua argumen yang bisa digunakan dalam program ini, yaitu *pool* dan *timeout*. 
+
+Pertama, *multiprocessing* digunakan untuk mempercepat proses dalam memperoleh data. Pada dasarnya, jumlah *pool* yang digunakan adalah 2. Namun jumlah ini bisa digunakan sesuai dengan kebutuhan, namun bergantung kepada jumlah CPU di komputer Anda. Bagaimana mengetahuinya? Secara sederhana bisa jalankan perintah berikut di terminal:
 
 ```
 # macOS
 sysctl -n hw.ncpu
 ```
 
-Lalu setelahnya bisa jalankan program berikut di terminal:
+Kedua, *timeout*. Menurut dokumentasi dalam modul [requests](https://requests.readthedocs.io/en/master/user/advanced/#advanced), ada baiknya menetapkan jumlah *timeout* sedikit di atas kelipatan tiga. Di sini saya menggunakan angka dasar lima detik. Berikut kalimat yang digunakan:
 
 ```
-# pool = 2
+It’s a good practice to set connect timeouts to slightly larger than a multiple of 3, which is the default TCP packet retransmission window.
+```
+
+Oke, penjelasan mengenai argumen selesai. lalu setelahnya bisa jalankan program berikut di terminal:
+
+```
+# pool = 2 dan timeout = 5
 python3 src/get_data.py
 
-# pool = 4
-python3 src/get_data.py --pool 4
+# pool = 4 dan timeout = 10
+python3 src/get_data.py --pool 4 --timeout 10
 ```
 
 # Data
-Jika ada enggan untuk menjalankan program tersebut, silakan langsung gunakan data yang sudah disajikan di folder `data`.
+Jika ada enggan untuk menjalankan program tersebut, silakan langsung gunakan data yang sudah disajikan di folder `data`. Omong-omong, karena ukuran data melampaui batas yang dimaklumi oleh GitHub (terutama `subdistrict.csv`, `school.csv`, dan `school-profile.csv`), saya menggunakan [Git Large File Storage](https://git-lfs.github.com/). Jika Anda merasa membutuhkan ini, silakan pasang di komputer Anda. Tautan [ini](https://help.github.com/en/github/managing-large-files/configuring-git-large-file-storage) mungkin juga membantu.
 
 # Penjelasan kolom
 Berikut adalah penjelasan setiap kolom dari sumber data yang digunakan. Kolom tambahan yang dihasilkan saat analisis dapat dilihat di *notebook* berujudul `index.ipynb`:
