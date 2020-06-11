@@ -1,1 +1,7 @@
 ./data/*.csv filter=lfs diff=lfs merge=lfs -text
+./data/all.csv filter=lfs diff=lfs merge=lfs -text
+./data/province.csv filter=lfs diff=lfs merge=lfs -text
+./data/district.csv filter=lfs diff=lfs merge=lfs -text
+./data/subdistrict.csv filter=lfs diff=lfs merge=lfs -text
+./data/school.csv filter=lfs diff=lfs merge=lfs -text
+./data/school-profile.csv filter=lfs diff=lfs merge=lfs -text
