@@ -11,24 +11,6 @@ git clone https://github.com/ledwindra/pendidikan-papua.git
 cd pendidikan-papua
 ```
 
-# Struktur folder
-
-```
-.
-├── README.md
-├── data
-│   ├── all.csv
-│   ├── district.csv
-│   ├── province.csv
-│   ├── school.csv
-│   └── subdistrict.csv
-├── index.ipynb
-├── requirements.txt
-└── src
-    └── get_data.py
-```
-
-
 # Virtual environment
 Aktifkan virtual environment jika ada tidak ingin modul yang bentrok saat menjalankan projek ini dengan modul lainnya yang sudah terpasang di komputer Anda. Lakukan hal di bawah ini di terminal:
 

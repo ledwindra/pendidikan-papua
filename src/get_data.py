@@ -68,7 +68,7 @@ class Dapodik:
                     status_code = response.status_code
                     df = pd.DataFrame(response.json())
                     df = df[['nama', 'kode_wilayah']]
-                    df.to_csv('./data/all.csv', index=False)
+                    df.to_csv('./data/all.csv', index=False, header=False)
                 except requests.exceptions.SSLError:
                     continue
                 except requests.exceptions.ConnectTimeout:
