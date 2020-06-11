@@ -31,7 +31,34 @@ pip3 -r install requirements.txt
 Data dikumpulkan melalui cara *web scraping*. Silakan jalan program berikut di terminal:
 
 ```
+python3 src/get_data.py --help
+```
+
+Kemudian akan muncul pesan sebagai berikut:
+
+```
+usage: get_data.py [-h] [-p POOL]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p POOL, --pool POOL  numbers of pool used for multiprocessing
+```
+
+Di sini saya menggunakan *multiprocessing* untuk mempercepat proses dalam memperoleh data. Pada dasarnya, jumlah *pool* yang digunakan adalah 2. Namun jumlah ini bisa digunakan sesuai dengan kebutuhan, namun bergantung kepada jumlah CPU di komputer Anda. Bagaimana mengetahuinya? Secara sederhana bisa jalankan perintah berikut di terminal:
+
+```
+# macOS
+sysctl -n hw.ncpu
+```
+
+Lalu setelahnya bisa jalankan program berikut di terminal:
+
+```
+# pool = 2
 python3 src/get_data.py
+
+# pool = 4
+python3 src/get_data.py --pool 4
 ```
 
 # Data
@@ -44,27 +71,27 @@ Berikut adalah penjelasan setiap kolom dari sumber data yang digunakan. Kolom ta
 
 |nama_kolom|tipe_data|penjelasan|
 |-|-|-|
-|nama|string||,
-|sekolah_id|string||,
-|kode_wilayah_induk_kecamatan|string||,
-|induk_provinsi|string||,
-|kode_wilayah_induk_provinsi|string||,
-|bentuk_pendidikan|string||,
+|nama|string|Nama sekolah|,
+|sekolah_id|string|ID sekolah|,
+|kode_wilayah_induk_kecamatan|string|ID kecamatan|,
+|induk_provinsi|string|Nama provinsi|,
+|kode_wilayah_induk_provinsi|string|ID provinsi|,
+|bentuk_pendidikan|string|Jenjang pendidikan (SD, SMP, SMA, SLB, atau sederajat)|,
 |status_sekolah|string||,
-|sekolah_id_enkrip|string||,
-|rombel|integer||,
-|guru_kelas|integer||,
-|guru_matematika|integer||,
-|guru_bahasa_indonesia|integer||,
-|guru_bahasa_inggris|integer||,
-|guru_sejarah_indonesia|integer||,
-|guru_pkn|integer||,
-|guru_penjaskes|integer||,
-|guru_agama_budi_pekerti|integer||,
-|guru_seni_budaya|integer||,
-|ptk_laki|integer||,
-|ptk_perempuan|integer||,
-|pegawai_laki|integer||,
+|sekolah_id_enkrip|string|ID sekolah 2|,
+|rombel|integer|Jumlah rombongan belajar per sekolah|,
+|guru_kelas|integer|Jumlah guru kelas per sekolah|,
+|guru_matematika|integer|Jumlah guru matematika per sekolah|,
+|guru_bahasa_indonesia|integer|Jumlah guru Bahasa Indonesia per sekolah|,
+|guru_bahasa_inggris|integer|Jumlah guru Bahasa Inggris per sekolah|,
+|guru_sejarah_indonesia|integer|Jumlah guru sejarah per sekolah|,
+|guru_pkn|integer|Jumlah guru pendidikan kewarganegaraan per sekolah|,
+|guru_penjaskes|integer|Jumlah guru pendidikan jasmani, olahraga, dan kesehatan per sekolah|,
+|guru_agama_budi_pekerti|integer|Jumlah guru agama dan budi pekerti per sekolah|,
+|guru_seni_budaya|integer|Jumlah guru seni budaya per sekolah|,
+|ptk_laki|integer|Jumlah pendidik dan tenaga kependidikan berjenis kelamin laki-laki per sekolah|,
+|ptk_perempuan|integer|Jumlah pendidik dan tenaga kependidikan berjenis kelamin perempuan per sekolah|,
+|pegawai_laki|integer|Jumlah pegawai per sekolah|,
 |pegawai_perempuan|integer||,
 |pd_kelas_1_laki|integer||,
 |pd_kelas_1_perempuan|integer||,

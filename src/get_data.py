@@ -3,7 +3,6 @@ import glob
 import os
 import requests
 import pandas as pd
-import sys
 from bs4 import BeautifulSoup
 from multiprocessing import Pool
 from random import randint
@@ -466,39 +465,39 @@ def main():
     )
     dapodik.get_all()
     dapodik.get_province()
-    Pool(pool).map(
-        dapodik.get_district,
-        dapodik.get_source_list(
-            'province',
-            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-            'kode_wilayah'
-        )
-    )
-    Pool(pool).map(
-        dapodik.get_subdistrict,
-        dapodik.get_source_list(
-            'district',
-            ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
-            'kode_wilayah'
-        )
-    )
-    Pool(pool).map(
-        dapodik.get_school,
-        dapodik.get_source_list(
-            'subdistrict',
-            [
-                'nama',
-                'sekolah_id',
-                'kode_wilayah_induk_kecamatan',
-                'induk_provinsi',
-                'kode_wilayah_induk_provinsi',
-                'bentuk_pendidikan',
-                'status_sekolah',
-                'sekolah_id_enkrip'
-            ],
-            'sekolah_id_enkrip'
-        )
-    )
+    # Pool(pool).map(
+    #     dapodik.get_district,
+    #     dapodik.get_source_list(
+    #         'province',
+    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+    #         'kode_wilayah'
+    #     )
+    # )
+    # Pool(pool).map(
+    #     dapodik.get_subdistrict,
+    #     dapodik.get_source_list(
+    #         'district',
+    #         ['nama', 'kode_wilayah', 'mst_kode_wilayah'],
+    #         'kode_wilayah'
+    #     )
+    # )
+    # Pool(pool).map(
+    #     dapodik.get_school,
+    #     dapodik.get_source_list(
+    #         'subdistrict',
+    #         [
+    #             'nama',
+    #             'sekolah_id',
+    #             'kode_wilayah_induk_kecamatan',
+    #             'induk_provinsi',
+    #             'kode_wilayah_induk_provinsi',
+    #             'bentuk_pendidikan',
+    #             'status_sekolah',
+    #             'sekolah_id_enkrip'
+    #         ],
+    #         'sekolah_id_enkrip'
+    #     )
+    # )
     Pool(pool).map(
         dapodik.get_school_profile,
         dapodik.get_source_list(
