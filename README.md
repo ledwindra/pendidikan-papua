@@ -3,6 +3,17 @@ Assalamualaikum warahmatullahi wabarakatuh. Mohon ijin pimpinan. Dengan ini saya
 
 Lihat slide presentasi di [sini](https://ledwindra.github.io/pendidikan-papua/#/).
 
+# Permisi
+Tok-tok-tok, bolehkah saya melakukan *web scraping* di situs Dapodik? Menurut [laman](https://dapo.dikdasmen.kemdikbud.go.id/robots.txt) ini, boleh! Berikut pernyataannya:
+
+```
+User-agent: *
+Disallow:
+Sitemap: http://dapo.dikdasmen.kemdikbud.go.id/sitemap.xml
+```
+
+Artinya, setiap pengguna (*), tidak dilarang untuk melakukan apa pun di situ ini (Disallsow:). Trims ya! 🙏🏽
+
 # Lakukan di komputer Anda
 Pastikan Anda sudah menginstall Python 3.x. Dalam kasus ini, saya menggunakan versi 3.8.1. Lakukan hal di bawah ini di terminal:
 
@@ -31,11 +42,48 @@ pip3 -r install requirements.txt
 Data dikumpulkan melalui cara *web scraping*. Silakan jalan program berikut di terminal:
 
 ```
+python3 src/get_data.py --help
+```
+
+Kemudian akan muncul pesan sebagai berikut:
+
+```
+usage: get_data.py [-h] [-p] [-t]
+
+optional arguments:
+  -h, --help       show this help message and exit
+  -p , --pool      numbers of pool used for multiprocessing
+  -t , --timeout   number of seconds Requests will wait for your client to establish a connection to a remote machine
+                   (corresponding to the connect()) call on the socket
+```
+
+Terdapat dua argumen yang bisa digunakan dalam program ini, yaitu *pool* dan *timeout*. 
+
+Pertama, *multiprocessing* digunakan untuk mempercepat proses dalam memperoleh data. Pada dasarnya, jumlah *pool* yang digunakan adalah 2. Namun jumlah ini bisa digunakan sesuai dengan kebutuhan, namun bergantung kepada jumlah CPU di komputer Anda. Bagaimana mengetahuinya? Secara sederhana bisa jalankan perintah berikut di terminal:
+
+```
+# macOS
+sysctl -n hw.ncpu
+```
+
+Kedua, *timeout*. Menurut dokumentasi dalam modul [requests](https://requests.readthedocs.io/en/master/user/advanced/#advanced), ada baiknya menetapkan jumlah *timeout* sedikit di atas kelipatan tiga. Di sini saya menggunakan angka dasar lima detik. Berikut kalimat yang digunakan:
+
+```
+It’s a good practice to set connect timeouts to slightly larger than a multiple of 3, which is the default TCP packet retransmission window.
+```
+
+Oke, penjelasan mengenai argumen selesai. lalu setelahnya bisa jalankan program berikut di terminal:
+
+```
+# pool = 2 dan timeout = 5
 python3 src/get_data.py
+
+# pool = 4 dan timeout = 10
+python3 src/get_data.py --pool 4 --timeout 10
 ```
 
 # Data
-Jika ada enggan untuk menjalankan program tersebut, silakan langsung gunakan data yang sudah disajikan di folder `data`.
+Jika ada enggan untuk menjalankan program tersebut, silakan langsung gunakan data yang sudah disajikan di folder `data`. Omong-omong, karena ukuran data melampaui batas yang dimaklumi oleh GitHub (terutama `subdistrict.csv`, `school.csv`, dan `school-profile.csv`), saya menggunakan [Git Large File Storage](https://git-lfs.github.com/). Jika Anda merasa membutuhkan ini, silakan pasang di komputer Anda. Tautan [ini](https://help.github.com/en/github/managing-large-files/configuring-git-large-file-storage) mungkin juga membantu.
 
 # Penjelasan kolom
 Berikut adalah penjelasan setiap kolom dari sumber data yang digunakan. Kolom tambahan yang dihasilkan saat analisis dapat dilihat di *notebook* berujudul `index.ipynb`:
@@ -44,27 +92,27 @@ Berikut adalah penjelasan setiap kolom dari sumber data yang digunakan. Kolom ta
 
 |nama_kolom|tipe_data|penjelasan|
 |-|-|-|
-|nama|string||,
-|sekolah_id|string||,
-|kode_wilayah_induk_kecamatan|string||,
-|induk_provinsi|string||,
-|kode_wilayah_induk_provinsi|string||,
-|bentuk_pendidikan|string||,
+|nama|string|Nama sekolah|,
+|sekolah_id|string|ID sekolah|,
+|kode_wilayah_induk_kecamatan|string|ID kecamatan|,
+|induk_provinsi|string|Nama provinsi|,
+|kode_wilayah_induk_provinsi|string|ID provinsi|,
+|bentuk_pendidikan|string|Jenjang pendidikan (SD, SMP, SMA, SLB, atau sederajat)|,
 |status_sekolah|string||,
-|sekolah_id_enkrip|string||,
-|rombel|integer||,
-|guru_kelas|integer||,
-|guru_matematika|integer||,
-|guru_bahasa_indonesia|integer||,
-|guru_bahasa_inggris|integer||,
-|guru_sejarah_indonesia|integer||,
-|guru_pkn|integer||,
-|guru_penjaskes|integer||,
-|guru_agama_budi_pekerti|integer||,
-|guru_seni_budaya|integer||,
-|ptk_laki|integer||,
-|ptk_perempuan|integer||,
-|pegawai_laki|integer||,
+|sekolah_id_enkrip|string|ID sekolah 2|,
+|rombel|integer|Jumlah rombongan belajar per sekolah|,
+|guru_kelas|integer|Jumlah guru kelas per sekolah|,
+|guru_matematika|integer|Jumlah guru matematika per sekolah|,
+|guru_bahasa_indonesia|integer|Jumlah guru Bahasa Indonesia per sekolah|,
+|guru_bahasa_inggris|integer|Jumlah guru Bahasa Inggris per sekolah|,
+|guru_sejarah_indonesia|integer|Jumlah guru sejarah per sekolah|,
+|guru_pkn|integer|Jumlah guru pendidikan kewarganegaraan per sekolah|,
+|guru_penjaskes|integer|Jumlah guru pendidikan jasmani, olahraga, dan kesehatan per sekolah|,
+|guru_agama_budi_pekerti|integer|Jumlah guru agama dan budi pekerti per sekolah|,
+|guru_seni_budaya|integer|Jumlah guru seni budaya per sekolah|,
+|ptk_laki|integer|Jumlah pendidik dan tenaga kependidikan berjenis kelamin laki-laki per sekolah|,
+|ptk_perempuan|integer|Jumlah pendidik dan tenaga kependidikan berjenis kelamin perempuan per sekolah|,
+|pegawai_laki|integer|Jumlah pegawai per sekolah|,
 |pegawai_perempuan|integer||,
 |pd_kelas_1_laki|integer||,
 |pd_kelas_1_perempuan|integer||,
