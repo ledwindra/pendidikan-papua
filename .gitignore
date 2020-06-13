@@ -1,4 +1,3 @@
-util/*
 __pycache__/
 .venv/
 .vscode/
