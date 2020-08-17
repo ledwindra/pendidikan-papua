@@ -34,7 +34,7 @@ class Dapodik:
     ):
         # read source file
         source = pd.read_csv(
-            f'./data/{source_file_name}.csv',
+            f'./data/{source_file_name}.zip',
             dtype=object,
             header=None
         )
@@ -48,9 +48,9 @@ class Dapodik:
         # the output list should be either:
         #   1. a list of unmatched IDs
         #   2. an empty list (if target file doesn't exist)
-        if os.path.exists(f'./data/{target_file_name}.csv'):
+        if os.path.exists(f'./data/{target_file_name}.zip'):
             target = pd.read_csv(
-                f'./data/{target_file_name}.csv',
+                f'./data/{target_file_name}.zip',
                 dtype=object,
                 header=None
             )
@@ -173,7 +173,7 @@ class Dapodik:
                 df = pd.DataFrame(response.json())
                 df = df[self.columns['subdistrict']]
                 df.to_csv(
-                    './data/subdistrict.csv',
+                    './data/subdistrict.zip',
                     index=False,
                     mode='a',
                     header=False
@@ -203,7 +203,7 @@ class Dapodik:
                 df['sekolah_id_enkrip'] = i
                 df = df[self.columns['school']]
                 df.to_csv(
-                    './data/school.csv',
+                    './data/school.zip',
                     index=False,
                     mode='a',
                     header=False
@@ -288,7 +288,7 @@ class Dapodik:
                         .split(':')[1]
                 }])
                 df.to_csv(
-                    './data/school-profile.csv',
+                    './data/school-profile.zip',
                     index=False,
                     mode='a',
                     header=False
@@ -362,7 +362,7 @@ def main():
         )
     )
 
-    # produce subdistrict.csv
+    # produce subdistrict.zip
     Pool(pool).map(
         dapodik.get_subdistrict,
         dapodik.get_target_list(
@@ -375,7 +375,7 @@ def main():
         )
     )
 
-    # produce school.csv
+    # produce school.zip
     Pool(pool).map(
         dapodik.get_school,
         dapodik.get_target_list(
@@ -388,7 +388,7 @@ def main():
         )
     )
 
-    # produce school-profile.csv
+    # produce school-profile.zip
     Pool(pool).map(
         dapodik.get_school_profile,
         dapodik.get_target_list(

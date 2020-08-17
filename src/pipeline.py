@@ -25,7 +25,7 @@ class DataFrame:
         """
         Returns the DataFrame for subdistrict/kecamatan.
         """
-        df = pd.read_csv('./data/subdistrict.csv', header=None, nrows=self.nrows)
+        df = pd.read_csv('./data/subdistrict.zip', header=None, nrows=self.nrows)
         df.columns = columns['subdistrict']
         df[identifier] = df.apply(
             lambda x: x[identifier].replace(' ', ''), axis=1
@@ -37,7 +37,7 @@ class DataFrame:
         """
         Returns the DataFrame for school level.
         """
-        df = pd.read_csv('./data/school.csv', header=None, nrows=self.nrows)
+        df = pd.read_csv('./data/school.zip', header=None, nrows=self.nrows)
         df.columns = columns['school']
 
         return df
@@ -46,7 +46,7 @@ class DataFrame:
         """
         Returns the DataFrame for school profile.
         """
-        df = pd.read_csv('./data/school-profile.csv', header=None, nrows=self.nrows)
+        df = pd.read_csv('./data/school-profile.zip', header=None, nrows=self.nrows)
         df.columns = columns['school_profile']
 
         return df
